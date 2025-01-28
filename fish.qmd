@@ -1,0 +1,26 @@
+---
+title: Quarto Computations
+jupyter: python3
+---
+
+# imports
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.svm import SVC
+from sklearn.linear_model import LinearRegression
+from sklearn import datasets
+```
+```{python}
+xVal = np.array(range(1, 6), dtype='float')
+yVal = 50 + 12 * (xVal - 3) + np.random.normal(0, 4, len(xVal))
+fig = plt.figure()
+ax = fig.add_axes([0, 0, 1, 1])
+ax.scatter(xVal, yVal)
+ax.set_xlim(0, 6)
+ax.set_ylim(0, 100)
+ax.set_xlabel('Concentration (%)')
+ax.set_ylabel('Absorption (%)')
+plt.show()
+```
