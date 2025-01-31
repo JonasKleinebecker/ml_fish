@@ -98,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="imports" class="level1">
 <h1>imports</h1>
-<div id="5fbff1a8" class="cell" data-execution_count="1">
+<div id="112a0991" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="mock-data" class="level1">
 <h1>mock data</h1>
-<div id="981921e2" class="cell" data-execution_count="2">
+<div id="125c2a4e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>xVal <span class="op">=</span> np.array(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">6</span>), dtype<span class="op">=</span><span class="st">'float'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>yVal <span class="op">=</span> <span class="dv">50</span> <span class="op">+</span> <span class="dv">12</span> <span class="op">*</span> (xVal <span class="op">-</span> <span class="dv">3</span>) <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">4</span>, <span class="bu">len</span>(xVal))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fig: Figure <span class="op">=</span> plt.figure()</span>
@@ -129,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="a127bf0d" class="cell" data-execution_count="3">
+<div id="8ca10e9e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>linReg <span class="op">=</span> LinearRegression()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>linReg.fit(xVal.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), yVal)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -151,16 +151,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="fish-data" class="level1">
-<h1>fish data</h1>
-<div id="67026702" class="cell" data-execution_count="4">
+<section id="fish-dict-construction" class="level1">
+<h1>Fish Dict Construction</h1>
+<div id="7156f252" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fish_raw <span class="op">=</span> pd.read_csv(<span class="st">'fish.csv'</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fish_data <span class="op">=</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fish_dict <span class="op">=</span> {</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'data'</span> : np.array(fish_raw.iloc[:, :<span class="op">-</span><span class="dv">1</span>]),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'target'</span> : np.array(fish_raw.iloc[:,<span class="op">-</span><span class="dv">1</span>]),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'target'</span> : np.array((fish_raw.iloc[:,<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">2</span>),</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'feature_names'</span> : fish_raw.columns[:<span class="op">-</span><span class="dv">1</span>],</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'target_names'</span> : [<span class="st">'Salmon'</span>, <span class="st">'Sea bass'</span>]</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="split-data" class="level1">
+<h1>Split Data</h1>
+<div id="1084ab0f" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sea_bass_data <span class="op">=</span> []</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>salmon_data <span class="op">=</span> []</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data, target <span class="kw">in</span> <span class="bu">zip</span>(fish_dict[<span class="st">'data'</span>], fish_dict[<span class="st">'target'</span>]):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> target <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    salmon_data.append(data)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    sea_bass_data.append(data)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>salmon_data <span class="op">=</span> np.array(salmon_data)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>sea_bass_data <span class="op">=</span> np.array(sea_bass_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="scatter-plot" class="level1">
+<h1>Scatter Plot</h1>
+<div id="759cad3e" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(fish_dict[<span class="st">'data'</span>][:, <span class="dv">0</span>], fish_dict[<span class="st">'data'</span>][:, <span class="dv">1</span>], c<span class="op">=</span>fish_dict[<span class="st">'target'</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="fish_files/figure-html/cell-7-output-1.png" width="579" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="histograms" class="level1">
+<h1>Histograms</h1>
+<div id="191e95bb" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, (bright_ax, length_ax) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, feature_index, feature_name <span class="kw">in</span> <span class="bu">zip</span>([bright_ax, length_ax], [<span class="dv">0</span>, <span class="dv">1</span>], fish_dict[<span class="st">'feature_names'</span>]):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    ax.hist(salmon_data[:, feature_index], alpha<span class="op">=</span><span class="fl">0.5</span>, bins<span class="op">=</span><span class="dv">20</span>, label<span class="op">=</span><span class="st">'Salmon'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    ax.hist(sea_bass_data[:, feature_index], alpha<span class="op">=</span><span class="fl">0.5</span>, bins<span class="op">=</span><span class="dv">20</span>, label<span class="op">=</span><span class="st">'Sea Bass'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(feature_name)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">'Frequency'</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f'Distribution of </span><span class="sc">{</span>feature_name<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="fish_files/figure-html/cell-8-output-1.png" width="950" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="boxplots" class="level1">
+<h1>Boxplots</h1>
+<div id="71d9706a" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, (bright_ax, length_ax) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, feature_index, feature_name <span class="kw">in</span> <span class="bu">zip</span>([bright_ax, length_ax], [<span class="dv">0</span>, <span class="dv">1</span>], fish_dict[<span class="st">'feature_names'</span>]):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  ax.boxplot([salmon_data[:, feature_index], sea_bass_data[:, feature_index]])</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  ax.set_xticklabels([<span class="st">'Salmon'</span>, <span class="st">'Sea Bass'</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  ax.set_xlabel(<span class="st">'Species'</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ax.set_ylabel(feature_name)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  ax.set_title(<span class="ss">f'Boxplot of </span><span class="sc">{</span>feature_name<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="fish_files/figure-html/cell-9-output-1.png" width="812" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 

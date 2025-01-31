@@ -42,13 +42,57 @@ ax.set_ylabel('Absorption (%)')
 plt.show()
 ```
 
-# fish data
+# Fish Dict Construction
 ```{python}
 fish_raw = pd.read_csv('fish.csv')
-fish_data = {
+fish_dict = {
   'data' : np.array(fish_raw.iloc[:, :-1]),
-  'target' : np.array(fish_raw.iloc[:,-1]),
+  'target' : np.array((fish_raw.iloc[:,-1] + 1) / 2),
   'feature_names' : fish_raw.columns[:-1],
   'target_names' : ['Salmon', 'Sea bass']
 }
+```
+# Split Data
+```{python}
+sea_bass_data = []
+salmon_data = []
+for data, target in zip(fish_dict['data'], fish_dict['target']):
+  if target == 0:
+    salmon_data.append(data)
+  else:
+    sea_bass_data.append(data)
+
+salmon_data = np.array(salmon_data)
+sea_bass_data = np.array(sea_bass_data)
+```
+# Scatter Plot
+```{python}
+plt.scatter(fish_dict['data'][:, 0], fish_dict['data'][:, 1], c=fish_dict['target'])
+plt.show()
+```
+# Histograms
+```{python}
+fig, (bright_ax, length_ax) = plt.subplots(1, 2, figsize=(10, 5))
+
+for ax, feature_index, feature_name in zip([bright_ax, length_ax], [0, 1], fish_dict['feature_names']):
+    ax.hist(salmon_data[:, feature_index], alpha=0.5, bins=20, label='Salmon')
+    ax.hist(sea_bass_data[:, feature_index], alpha=0.5, bins=20, label='Sea Bass')
+    ax.set_xlabel(feature_name)
+    ax.set_ylabel('Frequency')
+    ax.set_title(f'Distribution of {feature_name}')
+    ax.legend(loc='upper right')
+
+plt.tight_layout()
+plt.show()
+```
+# Boxplots
+```{python}
+fig, (bright_ax, length_ax) = plt.subplots(1, 2, figsize=(10, 5))
+for ax, feature_index, feature_name in zip([bright_ax, length_ax], [0, 1], fish_dict['feature_names']):
+  ax.boxplot([salmon_data[:, feature_index], sea_bass_data[:, feature_index]])
+  ax.set_xticklabels(['Salmon', 'Sea Bass'])
+  ax.set_xlabel('Species')
+  ax.set_ylabel(feature_name)
+  ax.set_title(f'Boxplot of {feature_name}')
+plt.show()
 ```
